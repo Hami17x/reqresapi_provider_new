@@ -2,7 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reqresapi_provider/extension/string_extension.dart';
-import 'package:reqresapi_provider/product/project_dio.dart';
+import 'package:reqresapi_provider/product/extension/project_dio.dart';
+import 'package:reqresapi_provider/product/theme/theme_notifier.dart';
 import 'package:reqresapi_provider/reqres/service/reqres_service.dart';
 import 'package:reqresapi_provider/reqres/viewmodel/reqres_provider.dart';
 
@@ -27,7 +28,18 @@ class _ReqresViewState extends State<ReqresView> with ProjectDioMixin {
                 ? const Text("loading..")
                 : const Text("loaded"),
           ),
-          body: _listView(context, context.watch<ReqresProvider>().resources),
+          body: Column(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<ThemeProvider>().changeTheme();
+                  },
+                  child: const Text("change theme")),
+              Expanded(
+                  child: _listView(
+                      context, context.watch<ReqresProvider>().resources)),
+            ],
+          ),
         );
       },
     );
